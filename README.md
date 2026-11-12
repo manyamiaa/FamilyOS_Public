@@ -2,6 +2,8 @@
 
 A household agent my spouse and I share, built from [Claude Code](https://claude.com/claude-code) skills. We talk to it the way we'd talk to each other ("save this reel", "we made the dal last night", "Mom said she has too many candles"), and it keeps track of our recipes and meal plans, birthdays and gifts, and our baby's toys, activities and journal. Every Saturday morning it sends one digest.
 
+**[See how it fits together →](https://claude.ai/artifact/GxtT499NujH7cAFN3LKwUc)** A diagram of the flows and a card for each skill.
+
 This is the public copy. The real one is a private repo holding our actual data. **Everything under `data/` and `journal/content/` here is sample data.** Names and dates are placeholders.
 
 ## How it works
