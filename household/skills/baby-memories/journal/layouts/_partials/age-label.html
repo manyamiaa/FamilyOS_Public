@@ -1,0 +1,6 @@
+{{- /* Label for an age_months value in the Age filter. */ -}}
+{{- $m := int . -}}
+{{- if eq $m 0 -}}First month
+{{- else if lt $m 24 -}}{{ $m }} month{{ if ne $m 1 }}s{{ end }} old
+{{- else -}}{{ div $m 12 }} years{{ with mod $m 12 }}, {{ . }} month{{ if ne . 1 }}s{{ end }}{{ end }} old
+{{- end -}}

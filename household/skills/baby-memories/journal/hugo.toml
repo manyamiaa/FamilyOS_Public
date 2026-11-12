@@ -1,0 +1,24 @@
+# Baby's journal: site settings.
+# Build:   hugo            -> writes plain HTML into public/ (open public/index.html)
+# Preview: hugo server --bind 0.0.0.0   (view on your phone over home Wi-Fi)
+
+baseURL = "/"
+locale = "en-us"
+title = "Baby"
+
+# Make the built site work when opened straight from disk (file://).
+relativeURLs = true
+uglyURLs = true
+
+# Only the timeline and the individual entry pages are needed.
+disableKinds = ["taxonomy", "term", "section", "rss", "sitemap", "robotstxt"]
+
+[params]
+  name = "Baby"
+  birthdate = "2026-01-15"   # YYYY-MM-DD, used by scripts/age.sh
+  # Known tags. The baby-memories skill suggests from this list and adds
+  # new ones here once you approve them.
+  tags = ["milestone", "firsts", "funny", "health", "growth", "food", "sleep", "family", "outing"]
+
+[markup.goldmark.renderer]
+  unsafe = false

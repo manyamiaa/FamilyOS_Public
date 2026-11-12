@@ -1,0 +1,56 @@
+{{- $p := .page -}}
+{{- /* Prefix that turns a site-root path into one relative to the page being
+     rendered, so the built site also works opened from disk. (Hugo's
+     relativeURLs fixes src/href but not the video poster attribute.) */ -}}
+{{- $depth := sub (len (findRE "/" .here.RelPermalink)) 1 -}}
+{{- $up := cond (gt $depth 0) (strings.Repeat $depth "../") "./" -}}
+<article class="entry"
+  data-tags="{{ delimit ($p.Params.tags | default slice) " " }}"
+  data-month="{{ $p.Date.Format "2006-01" }}"
+  data-age="{{ int ($p.Params.age_months | default 0) }}">
+  <header>
+    <p class="meta">
+      <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "Monday, January 2, 2006" }}</time>
+      {{ with $p.Params.age }}<span class="age">{{ . }}</span>{{ end }}
+    </p>
+    {{ if .link }}
+      <h3 class="entry-title"><a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a></h3>
+    {{ else }}
+      <h1 class="entry-title">{{ $p.Title }}</h1>
+    {{ end }}
+  </header>
+
+  <div class="body">{{ $p.Content }}</div>
+
+  {{ with $p.Params.media }}
+  <div class="media">
+    {{ range . }}
+      {{ $r := $p.Resources.Get .file }}
+      {{ if not $r }}
+        {{ warnf "%s: media file %q not found next to the entry" $p.File.Path .file }}
+        <p class="missing">Missing file: {{ .file }}</p>
+      {{ else }}
+        <figure>
+          {{ if eq $r.MediaType.MainType "video" }}
+            {{ $poster := $p.Resources.Get (printf "%s-poster.jpg" (strings.TrimSuffix (path.Ext .file) .file)) }}
+            <video controls playsinline preload="{{ if $poster }}none{{ else }}metadata{{ end }}"
+              {{ with $poster }}poster="{{ $up }}{{ strings.TrimPrefix "/" .RelPermalink }}"{{ end }}>
+              <source src="{{ $r.RelPermalink }}" type="{{ $r.MediaType.Type }}">
+            </video>
+          {{ else }}
+            <img src="{{ $r.RelPermalink }}" alt="{{ .caption | default $p.Title }}" loading="lazy"
+              {{ with $r.Width }}width="{{ . }}" height="{{ $r.Height }}"{{ end }}>
+          {{ end }}
+          {{ with .caption }}<figcaption>{{ . }}</figcaption>{{ end }}
+        </figure>
+      {{ end }}
+    {{ end }}
+  </div>
+  {{ end }}
+
+  {{ with $p.Params.tags }}
+  <ul class="tags">
+    {{ range . }}<li><a class="tag" href="{{ "index.html" | relURL }}#tag={{ . }}">{{ . }}</a></li>{{ end }}
+  </ul>
+  {{ end }}
+</article>

@@ -1,0 +1,4 @@
+{{ define "main" }}
+  {{ partial "entry.html" (dict "page" . "here" . "link" false) }}
+  <p class="back"><a href="{{ "index.html" | relURL }}">← All entries</a></p>
+{{ end }}

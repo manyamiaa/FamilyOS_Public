@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>{{ if .IsHome }}{{ site.Params.name }}'s journal{{ else }}{{ .Title }} · {{ site.Params.name }}{{ end }}</title>
+  <style>{{ (resources.Get "style.css").Content | safeCSS }}</style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="{{ "index.html" | relURL }}">{{ site.Params.name }}</a>
+    <p class="site-sub">born {{ (time site.Params.birthdate).Format "January 2, 2006" }}</p>
+  </header>
+  <main>
+    {{ block "main" . }}{{ end }}
+  </main>
+</body>
+</html>
